@@ -238,8 +238,7 @@ int main()
                     temp->insert_name(contact_name);//contact name -> TEMP
                     cout << contact_name << " was ADDED" << endl;
                     choice = request <string, size_t>("ADD a CONTACT to THIS group: press key 3, CHOOSE a CONTACT: press key 4", 3, 4, num_users);
-                    //if ALL the USERS have already been ADDED to this group and numOf_groups == 0
-                   /* if ((choice == 3 && temp->get_gr_size() >= num_users && numOf_groups == 0) || (choice == 4 && temp->get_gr_size() >= num_users && numOf_groups == 0))*/
+                    //if ALL the USERS have already been ADDED to this group and numOf_groups == 0                  
                     if ((choice == 3 || choice == 4) && temp->get_gr_size() >= num_users && numOf_groups == 0)
                     {
                         //Temp::array -> Message::group
@@ -254,8 +253,7 @@ int main()
                         temp->temp_clear();
                         break;
                     }
-                    //if ALL the USERS have already been ADDED to this group and there are number of groups more than 0
-                    /*else if ((choice == 3 && temp->get_gr_size() >= num_users && numOf_groups > 0) || (choice == 4 && temp->get_gr_size() >= num_users && numOf_groups > 0))*/
+                    //if ALL the USERS have already been ADDED to this group and there are number of groups more than 0                   
                     if ((choice == 3 || choice == 4) && temp->get_gr_size() >= num_users && numOf_groups > 0)
                     {
                         n = true;
@@ -331,7 +329,7 @@ int main()
                 }
                 break;
 
-            case 4://choose a contact      
+            case 4://choose a contact    
 
                 choice = request <string, size_t>("CHAT with your contacts: press key 4, MESSAGE for everyone: press key 6", 4, 6, num_users);
                 if (choice == 6) break;
