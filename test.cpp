@@ -1,3 +1,4 @@
+
 #include<iostream>
 using namespace std;
 #include<string>
@@ -137,7 +138,8 @@ int main()
                     }
                     else n = false;
                 }
-                cout << "HELLO " << user[user_ind].get_name() << "!" << endl << endl;
+                name = user[user_ind].get_name();
+                cout << "HELLO " << /*user[user_ind].get_name()*/name << "!" << endl << endl;
 
                 choice = request <string, size_t>("ADD a CONTACT: press key 3, CHOOSE a CONTACT: press key 4", 3, 4, num_users);
 
@@ -173,21 +175,28 @@ int main()
                 break;
 
             case 3:
-                //to prevent entry to case 3 if the user already lists in all groups
+                //if All registred USERS are in this group
+                if (temp->get_gr_size() == num_users)
+                {
+                    cout << "All registred USERS are in this group!" << endl;
+                    choice = 4;
+                    break;
+                }
 
-                  //number of groups where this user lists
+                //to prevent entry to case 3 if the user already lists in all groups                  
+                presence = 0;//number of groups where this user lists
                 for (size_t i = 0; i < numOf_groups; i++)
                     for (size_t j = 0; j < group[i].get_size_group(); j++)
-                        if (group[i].get_group(j) == user[user_ind].get_name())
+                        if (group[i].get_group(j) == name)
                         {
                             presence++;
-                        }
-                if (presence == numOf_groups && numOf_groups > 0)
+                        }              
+
+                if (presence >= Presence(num_users))
                 {
                     cout << user[user_ind].get_name() << ", you are already in touch with all possible contacts" << endl;
                     choice = 4;
                 }
-
                 n = true;
                 if (choice != 4)
                 {
@@ -230,7 +239,7 @@ int main()
                                 cout << "This USER has already been ADDED to this group." << endl;
                                 n = true;
                                 break;
-                            }
+                            }                        
                     }
                     name = user[user_ind].get_name();
                     if (temp->get_gr_size() == 0)
@@ -238,7 +247,8 @@ int main()
                     temp->insert_name(contact_name);//contact name -> TEMP
                     cout << contact_name << " was ADDED" << endl;
                     choice = request <string, size_t>("ADD a CONTACT to THIS group: press key 3, CHOOSE a CONTACT: press key 4", 3, 4, num_users);
-                    //if ALL the USERS have already been ADDED to this group and numOf_groups == 0                  
+                    //if ALL the USERS have already been ADDED to this group and numOf_groups == 0
+                   
                     if ((choice == 3 || choice == 4) && temp->get_gr_size() >= num_users && numOf_groups == 0)
                     {
                         //Temp::array -> Message::group
@@ -253,7 +263,8 @@ int main()
                         temp->temp_clear();
                         break;
                     }
-                    //if ALL the USERS have already been ADDED to this group and there are number of groups more than 0                   
+                    //if ALL the USERS have already been ADDED to this group and there are number of groups more than 0
+                    
                     if ((choice == 3 || choice == 4) && temp->get_gr_size() >= num_users && numOf_groups > 0)
                     {
                         n = true;
@@ -329,7 +340,7 @@ int main()
                 }
                 break;
 
-            case 4://choose a contact    
+            case 4://choose a contact      
 
                 choice = request <string, size_t>("CHAT with your contacts: press key 4, MESSAGE for everyone: press key 6", 4, 6, num_users);
                 if (choice == 6) break;
