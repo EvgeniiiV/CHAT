@@ -139,7 +139,7 @@ int main()
                     else n = false;
                 }
                 name = user[user_ind].get_name();
-                cout << "HELLO " << /*user[user_ind].get_name()*/name << "!" << endl << endl;
+                cout << "HELLO " << name << "!" << endl << endl;
 
                 choice = request <string, size_t>("ADD a CONTACT: press key 3, CHOOSE a CONTACT: press key 4", 3, 4, num_users);
 
