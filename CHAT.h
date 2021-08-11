@@ -33,17 +33,18 @@ private:
 
 template <typename T> class Group
 {
+public:
+    Group();
+    ~Group();    
+    void insert_name(T newval);
+    size_t get_size_group() const;
+    T get_group(size_t i)const;
+    T* get_group()const;
+
 private:
+    size_t alloc_group;
     size_t size_group;
     T* _group;
-public:
-    Group() = default;
-    
-    T* get_group()const;
-    T get_group(size_t i)const;
-    size_t get_size_group() const;
-    void approp(string* g, size_t size);//Temp->Group::group
-    ~Group();
 };
 
 template <typename T> class Message
@@ -67,9 +68,6 @@ template <typename T1, typename T2> T2 request(T1 rst, T2 a, T2 b, T2 first);//f
 template <typename T> T next_request();//case 5, 6
 inline size_t Factorial(size_t num);//factorial
 inline size_t Presence(size_t num);//to calculate max number of possible groups for one user based on the number of registered users
-
-
-
 
 
 
