@@ -66,6 +66,49 @@ template <typename T>void Temp<T>::temp_clear()//to clear temp
     size = 0;
 }
 
+template <typename T> Group<T>::Group()
+{
+    alloc_group = 1;
+    size_group = 0;
+    try
+    {
+        _group = new string[alloc_group];
+    }
+    catch (bad_alloc& ba)
+    {
+        cout << ba.what() << endl;
+    }
+}
+template <typename T> Group<T>::~Group()
+{
+    delete[]_group;
+}
+
+template <typename T> void Group<T>::insert_name(T newval)
+{
+    try
+    {
+        if (size_group == alloc_group)
+        {
+            T* newgroup = new T[alloc_group * 2];
+
+            for (size_t i = 0; i < size_group; i++)
+                newgroup[i] = _group[i];
+            alloc_group *= 2;
+            delete[] _group;
+            _group = newgroup;
+        }
+        _group[size_group++] = newval;
+    }
+    catch (bad_alloc& ba)
+    {
+        cout << ba.what() << endl;
+    }
+}
+template <typename T>size_t Group<T>::get_size_group() const { return size_group; }
+template <typename T>T Group<T>::get_group(size_t i)const { return _group[i]; }
+template <typename T>T* Group<T>::get_group()const { return _group; }
+
 template <typename T> Message<T>::Message()
 {
     alloc_mess = 1;
@@ -107,30 +150,6 @@ template <typename T> void Message<T>::insert_mess(T newval)
 }
 template <typename T>size_t Message<T>::get_size_mes() const { return size_mess; }
 template <typename T>T Message<T>::get_mess(size_t i)const { return _mess[i]; }
-
-template <typename T> Group<T>::Group();
-template <typename T>void Group<T>::approp(string * g, size_t size)//Temp->Group
-{
-    size_group = size;  
-    try
-    {
-        _group = new string[size_group];
-        for (size_t i = 0; i < size_group; i++)
-            _group[i] = g[i];
-    }
-    catch (bad_alloc& ba)
-    {
-        cout << ba.what() << endl;
-    }
-}
-template <typename T> Group<T>::~Group()
-{    
-    delete[] _group;
-}
-
-template <typename T>T* Group<T>::get_group()const { return _group; }
-template <typename T>T Group<T>::get_group(size_t i)const { return _group[i]; }
-template <typename T>size_t Group<T>::get_size_group() const { return size_group; }
 
 template <typename T1, typename T2 > bool compare(T1 * user, T2 u, T1 * group, T2 g)// compares Temp::array[i] and Group::_group[i]
 {
@@ -230,4 +249,5 @@ size_t Presence(size_t num)
 
     return p;
 }
+
 
