@@ -6,6 +6,7 @@ using namespace std;
 
 template<typename T>User<T>::User() = default;
 template<typename T>User<T>::User(T name, T login, T pass) : _name(name), _login(login), _pass(pass) {}
+
 template<typename T> T User<T>::get_name() const { return _name; }
 template<typename T> T User<T>::get_log_pas() const { return _login + _pass; }
 
@@ -22,6 +23,7 @@ template <typename T>Temp<T>::Temp()
         cout << ba.what() << endl;
     }
 }
+template <typename T>Temp<T>::~Temp() {delete[]array;};
 template<typename T>void Temp<T>::insert_name(T newval)
 {
     if (size == allocedSize)
@@ -64,20 +66,22 @@ template <typename T>void Temp<T>::temp_clear()//to clear temp
     size = 0;
 }
 
-
 template <typename T> Message<T>::Message()
 {
-    size_group = 0;
     alloc_mess = 1;
     size_mess = 0;
     try
     {
-        mess = new string[alloc_mess];
+        _mess = new string[alloc_mess];
     }
     catch (bad_alloc& ba)
     {
         cout << ba.what() << endl;
     }
+}
+template <typename T> Message<T>::~Message()
+{
+    delete[]_mess;
 }
 
 template <typename T> void Message<T>::insert_mess(T newval)
@@ -89,33 +93,47 @@ template <typename T> void Message<T>::insert_mess(T newval)
             T* newmess = new T[alloc_mess * 2];
 
             for (size_t i = 0; i < size_mess; i++)
-                newmess[i] = mess[i];
+                newmess[i] = _mess[i];
             alloc_mess *= 2;
-            delete[] mess;
-            mess = newmess;
+            delete[] _mess;
+            _mess = newmess;
         }
-        mess[size_mess++] = newval;
+        _mess[size_mess++] = newval;
     }
     catch (bad_alloc& ba)
     {
         cout << ba.what() << endl;
     }
 }
-
-template <typename T>T* Message<T>::get_group()const { return group; }
-template <typename T>T Message<T>::get_group(size_t i)const { return group[i]; }
-template <typename T>size_t Message<T>::get_size_group() const { return size_group; }
 template <typename T>size_t Message<T>::get_size_mes() const { return size_mess; }
-template <typename T>T Message<T>::get_mess(size_t i)const { return mess[i]; }
-template <typename T>void Message<T>::approp(string * g, size_t size)//Temp->Message::group 
+template <typename T>T Message<T>::get_mess(size_t i)const { return _mess[i]; }
+
+template <typename T> Group<T>::Group();
+//template <typename T> Group<T>::Group ():Group(string *g, size_t size)//Temp->Group
+template <typename T>void Group<T>::approp(string * g, size_t size)//Temp->Group
 {
-    size_group = size;
-    group = new string[size_group];
-    for (size_t i = 0; i < size_group; i++)
-        group[i] = g[i];
+    size_group = size;  
+    try
+    {
+        _group = new string[size_group];
+        for (size_t i = 0; i < size_group; i++)
+            _group[i] = g[i];
+    }
+    catch (bad_alloc& ba)
+    {
+        cout << ba.what() << endl;
+    }
+}
+template <typename T> Group<T>::~Group()
+{    
+    delete[] _group;
 }
 
-template <typename T1, typename T2 > bool compare(T1 * user, T2 u, T1 * group, T2 g)// compares Temp::array[i] and Message::group[i]
+template <typename T>T* Group<T>::get_group()const { return _group; }
+template <typename T>T Group<T>::get_group(size_t i)const { return _group[i]; }
+template <typename T>size_t Group<T>::get_size_group() const { return size_group; }
+
+template <typename T1, typename T2 > bool compare(T1 * user, T2 u, T1 * group, T2 g)// compares Temp::array[i] and Group::_group[i]
 {
     if (u != g) return false;
     for (size_t i = 0; i < u; i++)
@@ -206,7 +224,7 @@ size_t Presence(size_t num)
     size_t d = num;
     do
     {
-        p += Factorial(num) / (Factorial(num - d) * Factorial(d));//to calculate max number of possible groups for one user based on the number of registered users
+        p += Factorial(num) / (Factorial(num - d) * Factorial(d));
         d--;
     } while (d >= 2);
     p += num;
