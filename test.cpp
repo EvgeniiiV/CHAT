@@ -5,7 +5,7 @@ using namespace std;
 #define MaxUserCount 10//limit of Users
 #define MaxGroupCount 100//limit of contacts (groups of users) 
 #define MaxMessageCount 200//limit of messages in one group 
-//detection of memory leaks
+
 #define __CRTDBG_MAP_ALLOC
 #include <crtdbg.h>
 #define DEBUG_NEW new(_NORMAL_BLOCK, __FILE__, __LINE__)
@@ -249,8 +249,9 @@ int main()
 
                     if ((choice == 3 || choice == 4) && temp.get_gr_size() >= num_users && numOf_groups == 0)
                     {
-                        //Temp -> Group
-                        group[gr_ind].approp ( temp.get_groups(), temp.get_gr_size());
+                        //Temp -> Group                        
+                        for (size_t i = 0; i < temp.get_gr_size(); i++)
+                            group[gr_ind].insert_name(temp.get_name(i));
                         cout << "Your new group:" << endl;
                         for (size_t s = 0; s < group[gr_ind].get_size_group(); s++)
                             cout << s + 1 << ". " << group[gr_ind].get_group(s) << endl;
@@ -277,8 +278,9 @@ int main()
                                 break;
                             }
                         if (n)
-                        {   //Temp::array -> Message::group
-                            group[gr_ind].approp(temp.get_groups(), temp.get_gr_size());                        
+                        {   //Temp::array -> Group::group                           
+                            for (size_t i = 0; i < temp.get_gr_size(); i++)
+                                group[gr_ind].insert_name(temp.get_name(i));
                             cout << "Your new group:" << endl;
                             for (size_t s = 0; s < group[gr_ind].get_size_group(); s++)
                                 cout << s + 1 << ". " << group[gr_ind].get_group(s) << endl;
@@ -306,8 +308,9 @@ int main()
                             }
 
                         if (n)
-                        {     //Temp::array -> Message::group
-                            group[gr_ind].approp(temp.get_groups(), temp.get_gr_size());
+                        {     //Temp::array -> Group::group                            
+                            for (size_t i = 0; i < temp.get_gr_size(); i++)
+                                group[gr_ind].insert_name(temp.get_name(i));
                             cout << "Your new group:" << endl;
                             for (size_t s = 0; s < group[gr_ind].get_size_group(); s++)
                                 cout << s + 1 << ". " << group[gr_ind].get_group(s) << endl;
@@ -319,8 +322,9 @@ int main()
                     }
                     //if the group in temp was created but number Of_groups == 0 
                     else if ((choice == 4) && (temp.get_gr_size() < num_users) && (numOf_groups == 0))
-                    {     //Temp::array -> Message::group
-                        group[gr_ind].approp(temp.get_groups(), temp.get_gr_size());
+                    {     //Temp::array -> Group::group                       
+                        for (size_t i = 0; i < temp.get_gr_size(); i++)
+                            group[gr_ind].insert_name(temp.get_name(i));
                         cout << "Your new group:" << endl;
                         for (size_t s = 0; s < group[gr_ind].get_size_group(); s++)
                             cout << s + 1 << ". " << group[gr_ind].get_group(s) << endl;
@@ -422,7 +426,7 @@ int main()
             }
         }
         delete[]user;
-        //delete[]group;
+        delete[]group;
         delete[]mess;
 
     }
