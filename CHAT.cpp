@@ -109,7 +109,6 @@ template <typename T>size_t Message<T>::get_size_mes() const { return size_mess;
 template <typename T>T Message<T>::get_mess(size_t i)const { return _mess[i]; }
 
 template <typename T> Group<T>::Group();
-//template <typename T> Group<T>::Group ():Group(string *g, size_t size)//Temp->Group
 template <typename T>void Group<T>::approp(string * g, size_t size)//Temp->Group
 {
     size_group = size;  
